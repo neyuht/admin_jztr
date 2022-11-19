@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
+import http from "../../utils/http";
 
-function FormProduct() {
+function FormLog() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -12,12 +13,7 @@ function FormProduct() {
     pass: "invalid password",
   };
 
-  const handleSubmit = (event) => {
-    //Prevent page reload
-    event.preventDefault();
-
-    // Find user login info
-  };
+  const handleSubmit = (event) => {};
 
   // Generate JSX code for error message
   const renderErrorMessage = (name) =>
@@ -29,12 +25,8 @@ function FormProduct() {
   const renderForm = (
     <div className="form">
       <form onSubmit={handleSubmit}>
-        
         <div className="button-container">
           <input type="submit" value="Add Product" />
-        </div>
-        <div className="button-container">
-          <input type="submit" value="Reset Form" />
         </div>
       </form>
     </div>
@@ -50,4 +42,4 @@ function FormProduct() {
   );
 }
 
-export default FormProduct;
+export default FormLog;
