@@ -1,6 +1,6 @@
 import { Sidebar, Menu, MenuItem, useProSidebar } from 'react-pro-sidebar';
 
-function App() {
+function Layout() {
   const { collapseSidebar } = useProSidebar();
 
   return (
@@ -18,4 +18,4 @@ function App() {
     </div>
   );
 }
-export default App;
+export default Layout;

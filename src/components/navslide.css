@@ -1,0 +1,26 @@
+.cus{
+    background-color: rgb(47, 44, 44);
+    color: white;
+    border-radius: 25px;
+    margin: 5px;
+}
+.cus img{
+    margin-left: 40px;
+    border-radius: 10px;
+    border: 2px solid #eee;
+}
+.cusmenu{
+    background-color: aqua;
+}
+.admin-name{
+    display: block;
+    color: rgb(60, 125, 221);
+    font-weight: bold;
+ margin-bottom: -35px;
+   margin-left: 30px;
+ 
+
+}
+.nav-1{
+   background-color: rgba(197, 197, 197, 0.184);
+}
