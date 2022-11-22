@@ -6,7 +6,7 @@ import { DashboardLayout } from "../components/Layout";
 const CategoryEditPage = () => {
   return (
     <DashboardLayout>
-      <CategoryTable></CategoryTable>
+      <CategoryTable data = {["A", "B"]}></CategoryTable>
     </DashboardLayout>
   );
 };

@@ -20,9 +20,9 @@ const Routes = () => {
         <Route path="/listoder">
           <OderPage />
         </Route>
-        <Route path="/category">
+        {/* <Route path="/category">
           <CategoryPage />
-        </Route>
+        </Route> */}
         <Route path="/category/view">
           <CategoryPage />
         </Route>

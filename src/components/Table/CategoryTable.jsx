@@ -1,6 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect,useState } from "react";
+import { useCallback } from "react";
 import { Table } from "react-bootstrap";
+import {getAllCategory} from "../../service/categoryService"
+
+
 function CategoryTable() {
+  const [data, setData] = useState([])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect( async () => {
+   const res = await getAllCategory()
+   setData(res.data.data)
+  },[])
+
+
+
   return (
     <div className="app">
       <div className="top">Admin >> Categorys >> View</div>
@@ -8,48 +23,21 @@ function CategoryTable() {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>STT</th>
               <th> Name</th>
               <th>Status</th>
-              <th>Creat at</th>
-              <th>Update</th>
-              <th>Delete at</th>
-              <th>Description</th>
-              <th>Image ID</th>
-              <th>Category ID</th>
+              <th>Created at</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>John</td>
-              <td>Doe</td>
-              <td>@John</td>
-              <td>1</td>
-              <td>John</td>
-              <td>Doe</td>
-              <td>@John</td>
-              <td>@John</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Harry</td>
-              <td>Potter</td>
-              <td>@harrypotter</td> <td>2</td>
-              <td>Harry</td>
-              <td>Potter</td>
-              <td>@harrypotter</td>
-              <td>@harrypotter</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td colSpan={2}>Kylie Jainer</td>
-              <td>@Kylie</td>
-              <td>3</td>
-              <td colSpan={2}>Kylie Jainer</td>
-              <td>@Kylie</td>
-              <td>@Kylie</td>
-            </tr>
+
+            {data.map(row =>{
+              return (<tr>
+                <td>{row?.id}</td>
+                <td>{row?.name}</td>
+                <td>{row?.createdAt}</td>
+              </tr>)
+            })}
           </tbody>
         </Table>
       </div>

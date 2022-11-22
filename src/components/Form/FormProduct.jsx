@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import "./style.css";
+import {adminLogin} from "../../service/authService"
 
 function FormProduct() {
   // React States
@@ -15,7 +15,14 @@ function FormProduct() {
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
-
+    const data = {
+      email: "admin",
+      password: "123456"
+    }
+    adminLogin(data).then(res=>{
+      localStorage.setItem("token", "Bearer " + res.data.data)
+      console.log(localStorage.getItem("token"))
+    })
     // Find user login info
   };
 
@@ -29,7 +36,7 @@ function FormProduct() {
   const renderForm = (
     <div className="form">
       <form onSubmit={handleSubmit}>
-        
+
         <div className="button-container">
           <input type="submit" value="Add Product" />
         </div>
