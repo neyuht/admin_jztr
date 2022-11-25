@@ -45,7 +45,7 @@ function FormProducts({fields}) {
 
   return (
     <main className={'main-wrapper'}>
-      <section lassName={"container-main"}>
+      <section className={"container-main"}>
         <section className={"section-form"}>
           <form action="" className={'form-products'}>
             <div className={'form-information'}>
