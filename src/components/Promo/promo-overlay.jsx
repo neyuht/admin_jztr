@@ -16,12 +16,25 @@ const statuss = new Array(2).fill(1).map((item, index) => ({
   value: `${Boolean(index)}`,
 }));
 
-function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, expire, onClick }) {
+function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, startDate, endDate, onClick }) {
   const [codeUpdate, setCode] = useState(code);
   const [percentUpdate, setPercent] = useState(percent);
   const [amountUpdate, setAmount] = useState(amount);
   const [maxAmountUpdate, setMaxAmount] = useState(maxAmount);
-  const [expireUpdate, setExpires] = useState(expire);
+  const [expireUpdate, setExpires] = useState(() => {
+    const date = new Date(endDate);
+    const day= date.getDate() >= 10 ? date.getDate() : "0"+date.getDate();
+    const month = date.getMonth() + 1 >= 10  ?  date.getMonth() + 1 : "0"+ (date.getMonth() + 1);
+    const year = date.getFullYear()
+    return `${year}-${month}-${day}`
+  });
+  const [startDateUpdate, setStartDate] = useState(() => {
+    const date = new Date(startDate);
+    const day= date.getDate() >= 10 ? date.getDate() : "0"+date.getDate();
+    const month = date.getMonth() + 1 >= 10  ?  date.getMonth() + 1 : "0"+ (date.getMonth() + 1);
+    const year = date.getFullYear()
+    return `${year}-${month}-${day}`
+  });
   const [statusUpdate, setStatus] = useState(status);
 
   const onSubmit = (event) => {
@@ -31,6 +44,7 @@ function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, expire, 
       percentUpdate: parseInt(percentUpdate),
       amountUpdate,
       maxAmountUpdate,
+      startDateUpdate,
       expireUpdate,
       statusUpdate,
     };
@@ -44,7 +58,6 @@ function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, expire, 
     axiosClient.delete(`${process.env.REACT_APP_URL}/promotion/${id}`)
             .then(res => {
               window.location.reload()
-             
             })
   }, []);
 
@@ -76,67 +89,88 @@ function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, expire, 
               }}
             />
           </FormDataItem>
-          <FormDataItem label="percent" id="percent">
-            <Select
-              datas={percents}
-              name="percentUpdate"
-              value={percentUpdate}
-              onChange={(event) => {
-                setPercent(event.target.value);
-              }}
-            />
-          </FormDataItem>
-          <FormDataItem label="status" id="status">
-            <Select
-              datas={statuss}
-              name="statusUpdate"
-              value={statusUpdate}
-              onChange={(event) => {
-                setStatus(event.target.value);
-              }}
-            />
-          </FormDataItem>
-          <FormDataItem label="amount" id="amount">
-            <Input
-              type="text"
-              name="amountUpdate"
-              value={amountUpdate}
-              placeholder="Enter amount.."
-              onChange={(event) => {
-                setAmount(event.target.value);
-              }}
-            />
-          </FormDataItem>
-          <FormDataItem label="max amount" id="maxAmount">
-            <Input
-              type="text"
-              name="maxAmountUpdate"
-              value={maxAmountUpdate}
-              placeholder="Enter max amount.."
-              onChange={(event) => {
-                setMaxAmount(event.target.value);
-              }}
-            />
-          </FormDataItem>
-          <FormDataItem label="expire" id="expire">
-            <Input
-              type="datetime-local"
-              name="expireUpdate"
-              value={expireUpdate}
-              onChange={(event) => {
-                setExpires(event.target.value);
-              }}
-            />
-          </FormDataItem>
+          <div className={"form-group"}>
+            <FormDataItem label="percent" id="percent">
+              <Select
+                datas={percents}
+                name="percentUpdate"
+                value={percentUpdate}
+                onChange={(event) => {
+                  setPercent(event.target.value);
+                }}
+              />
+            </FormDataItem>
+            <FormDataItem label="status" id="status">
+              <Select
+                datas={statuss}
+                name="statusUpdate"
+                value={statusUpdate}
+                onChange={(event) => {
+                  setStatus(event.target.value);
+                }}
+              />
+            </FormDataItem>
+          </div>
+          <div className={"form-group"}>
+            <FormDataItem label="amount" id="amount">
+              <Input
+                type="text"
+                name="amountUpdate"
+                value={amountUpdate}
+                placeholder="Enter amount.."
+                onChange={(event) => {
+                  setAmount(event.target.value);
+                }}
+              />
+            </FormDataItem>
+            <FormDataItem label="max amount" id="maxAmount">
+              <Input
+                type="text"
+                name="maxAmountUpdate"
+                value={maxAmountUpdate}
+                placeholder="Enter max amount.."
+                onChange={(event) => {
+                  setMaxAmount(event.target.value);
+                }}
+              />
+            </FormDataItem>
+          </div>
+          <div className={"form-group"}>
+            {
+              console.log(startDateUpdate)
+            }
+            <FormDataItem label="startDate" id="startDate">
+              <input
+                type="date"
+                name="startDateUpdate"
+                value={startDateUpdate}
+                onChange={(event) => {
+              setStartDate(event.target.value);
+                }}
+              />
+            </FormDataItem>
+            <FormDataItem label="expire" id="expire">
+              <input
+                type="date"
+                name="expireUpdate"
+                value={expireUpdate}
+                onChange={(event) => {
+                  setExpires(event.target.value);
+                }}
+              />
+            </FormDataItem>
+          </div>
         </section>
-        <Button type="submit" title="submit" onClick={onSubmit} />
-        <Button
-          type="button"
-          title="delete"
-          onClick={(e) => {
-            onDelete(id);
-          }}
-        />
+        <div className={"form-cta"}>
+          <Button type="submit" title="submit" onClick={onSubmit} />
+          <Button
+            type="button"
+            title="delete"
+            onClick={(e) => {
+              onDelete(id);
+            }}
+          />
+        </div>
       </form>
     </section>
   );

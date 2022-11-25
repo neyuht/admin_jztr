@@ -1,4 +1,4 @@
-function PromoItem({ id, code, percent, amount, maxAmount, expire, status, onClick }) {
+function PromoItem({ id, code, percent, amount, maxAmount, startDate, expire, status, onClick }) {
   return (
     <tr
       className={"promo-table-item"}
@@ -18,6 +18,9 @@ function PromoItem({ id, code, percent, amount, maxAmount, expire, status, onCli
       </td>
       <td>
         <p>{maxAmount}</p>
+      </td>
+      <td>
+        <p>{startDate}</p>
       </td>
       <td>
         <p>{expire}</p>

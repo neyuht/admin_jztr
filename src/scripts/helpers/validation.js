@@ -8,7 +8,8 @@ import { changeStyleElementByObject } from "./styles-change";
 const validate = (obj) => {
   const empty = {};
   for (const [key, value] of Object.entries(obj)) {
-    if (!value) {
+    console.log("Key " + key + " value " + value );
+    if (value === '') {
       empty[key] = "Can't be left blank";
     }
   }
@@ -39,7 +40,7 @@ const validateNumber = (obj) => {
 const validateDataForm = (obj) => {
   changeStyleElementByObject(obj, "boxShadow", "0 0 0 0.3mm");
   const empty = validate(obj);
-  const { code, percent, status, expire, ...other } = obj;
+  const { code, percent, status, startDate, endDate, ...other } = obj;
   const notANumber = validateNumber({
     ...other,
   });

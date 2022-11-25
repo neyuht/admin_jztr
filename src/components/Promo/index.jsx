@@ -27,7 +27,8 @@ function Promo() {
   const [percent, setPercent] = useState(0);
   const [amount, setAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState("");
-  const [expires, setExpires] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState(true);
   const [filter, setFilter] = useState("");
   const [indexPagin, setIndexPagin] = useState(1);
@@ -43,19 +44,20 @@ function Promo() {
       percent: parseInt(percent),
       amount,
       maxAmount,
-      expire: "24-11-2022",
+      startDate: (() => {
+        const date = new Date(startDate)
+        return `${date.getDate() >= 10? date.getDate() : `0${date.getDate()}` }-${date.getMonth()+1 >= 10 ? date.getMonth()+1 : `0${date.getMonth()}`}-${date.getFullYear()}`
+      })(),
+      endDate: (() => {
+        const date = new Date(endDate)
+        return `${date.getDate() >= 10? date.getDate() : `0${date.getDate()}` }-${date.getMonth()+1 >= 10 ? date.getMonth()+1 : `0${date.getMonth()}`}-${date.getFullYear()}`
+      })(),
       status,
     };
-
     const valid = validateDataForm(obj);
     if (valid) {
       axiosClient.post(`${process.env.REACT_APP_URL}/promotion`, {
         id: 0,
-        code: "string",
-        percent: 0,
-        amount: 0,
-        maxAmount: 0,
-        status: true,
         type: 0,
         ...obj,
 
@@ -65,7 +67,17 @@ function Promo() {
       .catch(err => {
         console.log(err);
       })
-      const _temps = [...promotions, obj];
+      const _temps = [...promotions, {
+        ...obj,
+        startDate: (() => {
+          const date = new Date(startDate)
+          return `${date.getMonth()+1 >= 10? date.getMonth()+1 : `0${date.getMonth()}` }-${date.getDate()>= 10 ? date.getDate(): `0${date.getDate()}`}-${date.getFullYear()}`
+        })(),
+        endDate: (() => {
+          const date = new Date(endDate)
+          return `${date.getMonth()+1 >= 10? date.getMonth()+1 : `0${date.getMonth()}` }-${date.getDate() >= 10 ? date.getDate() : `0${date.getDate()}`}-${date.getFullYear()}`
+        })(),
+      }];
       const sizePagin =
         _temps.length % size === 0 ? _temps.length / size : parseInt(_temps.length / size) + 1;
       const _tempsPagin = new Array(sizePagin).fill(1);
@@ -75,7 +87,8 @@ function Promo() {
       setPercent(0);
       setAmount("");
       setMaxAmount("");
-      setExpires("");
+      setEndDate("");
+      setStartDate("");
       setStatus(true);
     }
   };
@@ -90,9 +103,9 @@ function Promo() {
   };
 
   const openSetting = async(event, id) => {
-    const {data} = await axiosClient.get(`${process.env.REACT_APP_URL}/promotion/${id}`)
-    setOverlay(data);
-    // console.log(data);
+    console.log(id);
+    const response = await axiosClient.get(`${process.env.REACT_APP_URL}/promotion/${id}`)
+    setOverlay(response.data);
   };
 
 
@@ -108,9 +121,8 @@ useEffect(() => {
 
   return (
     <section className={"promo-wrapper"}>
-      <h2 className={"title"}>Hello World</h2>
-      <section className={"promo-main"}>
-        <section>
+      <section className={"container-main"}>
+        <section className={"section-form"}>
           <form action="#" className={"form-wrapper"} onSubmit={onSubmit}>
             <h2 className={"heading"}>add promotion</h2>
             <section className={"form-data"}>
@@ -125,63 +137,79 @@ useEffect(() => {
                   }}
                 />
               </FormDataItem>
-              <FormDataItem label="percent" id="percent">
-                <Select
-                  datas={percents}
-                  name="percent"
-                  value={percent}
-                  onChange={(event) => {
-                    setPercent(event.target.value);
-                  }}
-                />
-              </FormDataItem>
-              <FormDataItem label="status" id="status">
-                <Select
-                  datas={statuss}
-                  name="status"
-                  value={status}
-                  onChange={(event) => {
-                    setStatus(event.target.value);
-                  }}
-                />
-              </FormDataItem>
-              <FormDataItem label="amount" id="amount">
-                <Input
-                  type="text"
-                  name="amount"
-                  value={amount}
-                  placeholder="Enter amount.."
-                  onChange={(event) => {
-                    setAmount(event.target.value);
-                  }}
-                />
-              </FormDataItem>
-              <FormDataItem label="max amount" id="maxAmount">
-                <Input
-                  type="text"
-                  name="maxAmount"
-                  value={maxAmount}
-                  placeholder="Enter max amount.."
-                  onChange={(event) => {
-                    setMaxAmount(event.target.value);
-                  }}
-                />
-              </FormDataItem>
-              <FormDataItem label="expire" id="expire">
-                <Input
-                  type="date"
-                  name="expire"
-                  value={expires}
-                  onChange={(event) => {
-                    setExpires(event.target.value);
-                  }}
-                />
-              </FormDataItem>
+              <div className={"form-group"}>
+                <FormDataItem label="percent" id="percent">
+                  <Select
+                    datas={percents}
+                    name="percent"
+                    value={percent}
+                    onChange={(event) => {
+                      setPercent(event.target.value);
+                    }}
+                  />
+                </FormDataItem>
+                <FormDataItem label="status" id="status">
+                  <Select
+                    datas={statuss}
+                    name="status"
+                    value={status}
+                    onChange={(event) => {
+                      setStatus(event.target.value);
+                    }}
+                  />
+                </FormDataItem>
+              </div>
+              <div className={"form-group"}>
+                <FormDataItem label="amount" id="amount">
+                  <Input
+                    type="text"
+                    name="amount"
+                    value={amount}
+                    placeholder="Enter amount.."
+                    onChange={(event) => {
+                      setAmount(event.target.value);
+                    }}
+                  />
+                </FormDataItem>
+                <FormDataItem label="max amount" id="maxAmount">
+                  <Input
+                    type="text"
+                    name="maxAmount"
+                    value={maxAmount}
+                    placeholder="Enter max amount.."
+                    onChange={(event) => {
+                      setMaxAmount(event.target.value);
+                    }}
+                  />
+                </FormDataItem>
+              </div>
+              <div className={"form-group"}>
+                <FormDataItem label="startDate" id="startDate">
+                  <Input
+                    type="date"
+                    name="startDate"
+                    value={startDate}
+                    onChange={(event) => {
+                      setStartDate(event.target.value);
+                    }}
+                  />
+                </FormDataItem>
+                <FormDataItem label="endDate" id="endDate">
+                  <Input
+                    type="date"
+                    name="endDate"
+                    value={endDate}
+                    onChange={(event) => {
+                      setEndDate(event.target.value);
+                    }}
+                  />
+                </FormDataItem>
+              </div>
             </section>
             <Button type="submit" title="submit" onClick={onSubmit} />
           </form>
         </section>
-        <section>
+        <section className={"section-list"}>
           <section className={"list-promo"}>
             <section className={"filter-promo"}>
               <h2 className="heading">list promotion</h2>
@@ -201,6 +229,7 @@ useEffect(() => {
                     <th>percent</th>
                     <th>amount</th>
                     <th>max amount</th>
+                    <th>start Date</th>
                     <th>expires</th>
                     <th>status</th>
                   </tr>
@@ -208,6 +237,9 @@ useEffect(() => {
                 <tbody>
                   {promotions.map((promotion, index) => {
                     if (indexPagin * size - size <= index && index < size * indexPagin) {
+                      console.log(promotion.endDate);
+                      console.log((new Date(promotion.endDate)).toLocaleString('en-GB').split(',')[0]);
+                      console.log(new Date().toLocaleString('en-GB').split(',')[0]);
                       return (
                         <PromoItem
                           id={promotion.id}
@@ -215,8 +247,9 @@ useEffect(() => {
                           percent={promotion.percent}
                           amount={promotion.amount}
                           maxAmount={promotion.maxAmount}
-                          expire={promotion.expire}
-                          status={promotion.status + ""}
+                          startDate={(new Date(promotion.startDate)).toLocaleDateString('en-GB')}
+                          expire={(new Date(promotion.endDate)).toLocaleDateString('en-GB')}
+                          status={(new Date(promotion.endDate)).toLocaleString('en-GB').split(',')[0] === new Date().toLocaleString('en-GB').split(',')[0] ? 'Expired' : 'Available'}
                           onClick={openSetting}
                         />
                       );
