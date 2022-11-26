@@ -12,6 +12,8 @@ import MembersEdit from "./membersedit";
 import SettingsPage from "./settings";
 import ListMem from "./listmember";
 import HomePage from "./home";
+import Promo from "../components/Promo/index";
+import Pesudo from "./promotion";
 
 const Routes = () => {
   return (
@@ -52,6 +54,9 @@ const Routes = () => {
         </Route>
         <Route path="/settings">
           <SettingsPage />
+        </Route>
+        <Route path='/promotion' >
+         <Pesudo> <Promo /></Pesudo>
         </Route>
         <Route path="/">
           <HomePage />

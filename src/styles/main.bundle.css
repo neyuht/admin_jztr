@@ -10578,7 +10578,7 @@ video {
 }
 
 .h-screen {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .text-xs {

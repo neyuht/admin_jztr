@@ -87,7 +87,7 @@ export const NavSidebar = () => {
             },
             {
               title: "Promo",
-              itemId: "/promo",
+              itemId: "/promotion",
               elemBefore: () => <Icon name="briefcase" />,
             },
             {
