@@ -4,7 +4,7 @@ function DetailsTable() {
   const [detailsInfo, setDetailsInfo] = useState([]);
 
   const addDetails = (e) => {
-    const { detailsKey, detailsDescription } = document.forms[1];
+    const { detailsKey, detailsDescription } = document.forms[0];
     if (e.key === 'Enter') {
       const details = {
         keys: detailsKey.value,

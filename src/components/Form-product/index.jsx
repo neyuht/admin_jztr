@@ -53,7 +53,8 @@ function FormProducts({ fields }) {
     };
     const empty = validate(obj);
     const emptyLength = Object.keys(empty).length;
-    if (emptyLength) {
+    console.log(emptyLength);
+    if (!emptyLength) {
       console.log("Don't send");
       return;
     }
