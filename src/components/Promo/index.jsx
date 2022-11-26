@@ -54,6 +54,7 @@ function Promo() {
       })(),
       status,
     };
+
     const valid = validateDataForm(obj);
     if (valid) {
       axiosClient.post(`${process.env.REACT_APP_URL}/promotion`, {
@@ -67,6 +68,7 @@ function Promo() {
       .catch(err => {
         console.log(err);
       })
+
       const _temps = [...promotions, {
         ...obj,
         startDate: (() => {
@@ -78,6 +80,7 @@ function Promo() {
           return `${date.getMonth()+1 >= 10? date.getMonth()+1 : `0${date.getMonth()}` }-${date.getDate() >= 10 ? date.getDate() : `0${date.getDate()}`}-${date.getFullYear()}`
         })(),
       }];
+
       const sizePagin =
         _temps.length % size === 0 ? _temps.length / size : parseInt(_temps.length / size) + 1;
       const _tempsPagin = new Array(sizePagin).fill(1);
@@ -102,24 +105,21 @@ function Promo() {
     setFilter(e.target.value);
   };
 
-  const openSetting = async(event, id) => {
-    console.log(id);
-    const response = await axiosClient.get(`${process.env.REACT_APP_URL}/promotion/${id}`)
-    setOverlay(response.data);
+  const openSetting = async(e, id) => {
+    const promo = promotions.find((promo) => promo.id === id);
+    setOverlay(promo);
   };
-
 
 useEffect(() => {
   axiosClient.get(`${process.env.REACT_APP_URL}/promotion`)
           .then(response => {
-            console.log(response.data);
-            setPromotions(response.data)
+            setPromotions(response.data.content)
           }).catch(err => {
             console.log(err);
           })
 },[])
 
-  return (
+return (
     <section className={"promo-wrapper"}>
       <section className={"container-main"}>
         <section className={"section-form"}>

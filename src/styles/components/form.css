@@ -1,5 +1,5 @@
 .main-wrapper {
-  padding: 50px 0;
+  padding: 50px 20px;
 }
 
 .form-products {
@@ -137,46 +137,13 @@
   border: 1px solid #28a745;
 }
 
-.form-cta .btn:hover {
-  color: #fff;
-}
-
-.form-cta .btn-create, .btn-done {
-  color: #28a745;
-}
-
-.form-cta .btn-create:hover,
-.form-cta .btn-done:hover {
+.form-cta .btn-create {
   background-color: #46d267;
   border-color:#46d267;
+  color: white;
+  width: 60%;
 }
 
-.form-cta .btn-delete {
-  color: #ff5b5b;
-  border-color: #ff4d4d;
-}
-
-.form-cta .btn-delete:hover {
-  background-color: #ff5b5b;
-  border-color: #ff5b5b;
-}
-
-.form-cta .btn-update {
-  color: #4da6ff;
-  border-color:#3399ff;
-}
-
-.form-cta .btn-update:hover {
-  background-color: #4da6ff;
-  border-color:#4da6ff;
-}
-
-.form-cta .btn-reset {
-  color: #6c757d;
-  border-color: #6c757d;
-}
-
-.form-cta .btn-reset:hover {
-  background-color: #6c757d;
-  border-color:#6c757d;
+.form-cta .btn-create:hover {
+  background-color: #76d88d;
 }

@@ -8,8 +8,8 @@ function Select({ datas, value, name, onChange }) {
   };
   return (
     <select name={name} id={name} {...props}>
-      {_datas.map((item) => (
-        <option value={`${item.value || item.title}`}>{item.title}</option>
+      {_datas.map((item, index) => (
+        <option selected={index === 0} value={`${item.value || item.title}`}>{item.title}</option>
       ))}
     </select>
   );

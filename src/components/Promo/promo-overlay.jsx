@@ -28,6 +28,7 @@ function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, startDat
     const year = date.getFullYear()
     return `${year}-${month}-${day}`
   });
+
   const [startDateUpdate, setStartDate] = useState(() => {
     const date = new Date(startDate);
     const day= date.getDate() >= 10 ? date.getDate() : "0"+date.getDate();
@@ -40,17 +41,25 @@ function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, startDat
   const onSubmit = (event) => {
     event.preventDefault();
     const obj = {
-      codeUpdate,
-      percentUpdate: parseInt(percentUpdate),
-      amountUpdate,
-      maxAmountUpdate,
-      startDateUpdate,
-      expireUpdate,
-      statusUpdate,
+      code: codeUpdate,
+      percent: parseInt(percentUpdate),
+      amount: amountUpdate,
+      maxAmount: maxAmountUpdate,
+      startDate: startDateUpdate,
+      endDate: expireUpdate,
     };
     const valid = validateDataForm(obj);
+
     if (valid) {
-      alert("Update");
+      axiosClient.put(`${process.env.REACT_APP_URL}/promotion/${id}`,obj)
+      .then(res => {
+        console.log("success",res);
+
+        window.location.reload()
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
   };
 
@@ -106,6 +115,7 @@ function PopUpPromo({ cx, id, code, amount, percent, maxAmount, status, startDat
                 name="statusUpdate"
                 value={statusUpdate}
                 onChange={(event) => {
+                  console.log(event.target.value);
                   setStatus(event.target.value);
                 }}
               />

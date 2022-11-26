@@ -1,3 +1,4 @@
+import { Value } from "sass";
 import { changeStyleElementByObject } from "./styles-change";
 
 /**
@@ -8,8 +9,7 @@ import { changeStyleElementByObject } from "./styles-change";
 const validate = (obj) => {
   const empty = {};
   for (const [key, value] of Object.entries(obj)) {
-    console.log("Key " + key + " value " + value );
-    if (value === '') {
+    if (!Boolean(value)) {
       empty[key] = "Can't be left blank";
     }
   }
@@ -40,15 +40,18 @@ const validateNumber = (obj) => {
 const validateDataForm = (obj) => {
   changeStyleElementByObject(obj, "boxShadow", "0 0 0 0.3mm");
   const empty = validate(obj);
-  const { code, percent, status, startDate, endDate, ...other } = obj;
+  const { code,codeUpdate, percent, status, startDate, endDate,statusUpdate,expireUpdate,startDateUpdate, ...other } = obj;
   const notANumber = validateNumber({
     ...other,
   });
+
   if (Object.keys(empty).length) {
     changeStyleElementByObject(empty, "boxShadow", "0 0 0 0.3mm red");
+    console.log(empty);
     return false;
   } else if (Object.keys(notANumber).length) {
     changeStyleElementByObject(notANumber, "boxShadow", "0 0 0 0.3mm red");
+    console.log(notANumber);
     return false;
   }
   return true;
